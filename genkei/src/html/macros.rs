@@ -1,3 +1,5 @@
+#[macro_export]
+#[warn(unused_macros)]
 macro_rules! element_group {
     ($element:tt, $($content:tt)*) => {
         {
@@ -10,6 +12,7 @@ macro_rules! element_group {
 }
 
 #[macro_export]
+#[warn(unused_macros)]
 macro_rules! div_group {
     () => {
         $crate::html::div()

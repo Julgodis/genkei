@@ -1,0 +1,85 @@
+#[test]
+fn test_tags() {
+    let _ = genkei::html();
+    let _ = genkei::base();
+    let _ = genkei::head();
+    let _ = genkei::link();
+    let _ = genkei::meta();
+    let _ = genkei::style();
+    let _ = genkei::title();
+    let _ = genkei::body();
+    let _ = genkei::address();
+    let _ = genkei::article();
+    let _ = genkei::aside();
+    let _ = genkei::footer();
+    let _ = genkei::header();
+    let _ = genkei::h1();
+    let _ = genkei::h2();
+    let _ = genkei::h3();
+    let _ = genkei::h4();
+    let _ = genkei::h5();
+    let _ = genkei::h6();
+    let _ = genkei::hgroup();
+    let _ = genkei::main();
+    let _ = genkei::nav();
+    let _ = genkei::section();
+    let _ = genkei::search();
+    let _ = genkei::blockquote();
+    let _ = genkei::dd();
+    let _ = genkei::div();
+    let _ = genkei::dl();
+    let _ = genkei::dt();
+    let _ = genkei::figcaption();
+    let _ = genkei::figure();
+    let _ = genkei::hr();
+    let _ = genkei::li();
+    let _ = genkei::menu();
+    let _ = genkei::ol();
+    let _ = genkei::p();
+    let _ = genkei::pre();
+    let _ = genkei::ul();
+    let _ = genkei::a();
+    let _ = genkei::abbr();
+    let _ = genkei::b();
+    let _ = genkei::bdi();
+    let _ = genkei::bdo();
+    let _ = genkei::br();
+    let _ = genkei::cite();
+    let _ = genkei::code();
+    let _ = genkei::data();
+    let _ = genkei::dfn();
+    let _ = genkei::em();
+    let _ = genkei::i();
+    let _ = genkei::kbd();
+    let _ = genkei::mark();
+    let _ = genkei::q();
+    let _ = genkei::rp();
+    let _ = genkei::rt();
+}
+
+#[test]
+fn test_tags_deprecated() {
+    let _ = genkei::acronym();
+    let _ = genkei::big();
+    let _ = genkei::center();
+    let _ = genkei::dir();
+    let _ = genkei::font();
+    let _ = genkei::frame();
+    let _ = genkei::frameset();
+    let _ = genkei::image();
+    let _ = genkei::marquee();
+    let _ = genkei::menuitem();
+    let _ = genkei::nobr();
+    let _ = genkei::noembed();
+    let _ = genkei::noframes();
+    let _ = genkei::param();
+    let _ = genkei::plaintext();
+    let _ = genkei::rb();
+    let _ = genkei::rtc();
+    let _ = genkei::shadow();
+    let _ = genkei::strike();
+    let _ = genkei::tt();
+    let _ = genkei::xmp();
+    let _ = genkei::command();
+    let _ = genkei::keygen();
+}

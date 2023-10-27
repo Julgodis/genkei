@@ -1,0 +1,24 @@
+[package]
+name = "genkei"
+version = "0.1.3"
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+
+[features]
+default = ["html", "style"]
+html = []
+style = []
+html-deprecated = ["html"]
+html-macros = ["html"]
+html-render = ["html"]
+html-htmx = ["html"]
+all = [
+    "html",
+    "style",
+    "html-deprecated",
+    "html-macros",
+    "html-render",
+    "html-htmx",
+]
