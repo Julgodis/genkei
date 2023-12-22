@@ -44,29 +44,18 @@ impl GridColumn {
     pub(crate) fn write_css_statement<T>(
         &self,
         stream: &mut String,
-        options: &T,
+        _options: &T,
     ) -> Result<(), StyleError>
     where
         T: crate::StyleOptions,
     {
         match self {
             GridColumn::Auto => write!(stream, "grid-column:auto")?,
-            GridColumn::Span(x) => {
-                write!(stream, "grid-column:span ")?;
-                options.spacing(stream, *x)?;
-                write!(stream, " / span ")?;
-                options.spacing(stream, *x)?;
-            }
+            GridColumn::Span(x) => write!(stream, "grid-column:span {} / span {}", x, x)?,
             GridColumn::SpanFull => write!(stream, "grid-column:1 / -1")?,
-            GridColumn::Start(x) => {
-                write!(stream, "grid-column-start:")?;
-                options.spacing(stream, *x)?;
-            }
+            GridColumn::Start(x) => write!(stream, "grid-column-start:{}", x)?,
             GridColumn::StartAuto => write!(stream, "grid-column-start:auto")?,
-            GridColumn::End(x) => {
-                write!(stream, "grid-column-end:")?;
-                options.spacing(stream, *x)?;
-            }
+            GridColumn::End(x) => write!(stream, "grid-column-end:{}", x)?,
             GridColumn::EndAuto => write!(stream, "grid-column-end:auto")?,
         };
 

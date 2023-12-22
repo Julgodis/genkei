@@ -54,35 +54,35 @@ impl BorderWidth {
         match self {
             BorderWidth::All(x) => {
                 write!(stream, "border-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::X(x) => {
                 write!(stream, "border-left-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
                 write!(stream, ";border-right-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::Y(x) => {
                 write!(stream, "border-top-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
                 write!(stream, ";border-bottom-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::Top(x) => {
                 write!(stream, "border-top-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::Right(x) => {
                 write!(stream, "border-right-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::Bottom(x) => {
                 write!(stream, "border-bottom-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
             BorderWidth::Left(x) => {
                 write!(stream, "border-left-width:")?;
-                options.spacing(stream, *x)?;
+                options.border(stream, *x)?;
             }
         };
 
@@ -149,57 +149,48 @@ impl<T> BorderTrait for T where T: Styleable {}
 
 /// A trait for the border style attribute.
 pub trait BorderTrait: Styleable {
-    /// Set the border width. css `border-width: value;`
     #[inline]
-    fn border(self, value: impl Into<i32>) -> Self {
+    fn border(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::All(value.into()))
     }
 
-    /// Set the border width for the x-axis.
     #[inline]
-    fn border_x(self, value: impl Into<i32>) -> Self {
+    fn border_x(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::X(value.into()))
     }
 
-    /// Set the border width for the y-axis.
     #[inline]
-    fn border_y(self, value: impl Into<i32>) -> Self {
+    fn border_y(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::Y(value.into()))
     }
 
-    /// Set the border width for the top.
     #[inline]
-    fn border_top(self, value: impl Into<i32>) -> Self {
+    fn border_top(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::Top(value.into()))
     }
 
-    /// Set the border width for the right.
     #[inline]
-    fn border_right(self, value: impl Into<i32>) -> Self {
+    fn border_right(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::Right(value.into()))
     }
 
-    /// Set the border width for the bottom.
     #[inline]
-    fn border_bottom(self, value: impl Into<i32>) -> Self {
+    fn border_bottom(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::Bottom(value.into()))
     }
 
-    /// Set the border width for the left.
     #[inline]
-    fn border_left(self, value: impl Into<i32>) -> Self {
+    fn border_left(self, value: impl Into<i32>) -> Self::Output {
         self.style(BorderWidth::Left(value.into()))
     }
 
-    /// Set the border color. css `border-color: value;`
     #[inline]
-    fn border_color(self, value: impl Into<Color>) -> Self {
+    fn border_color(self, value: impl Into<Color>) -> Self::Output {
         self.style(Border::Color(value.into()))
     }
 
-    /// Set the border radius. css `border-radius: value;`
     #[inline]
-    fn border_radius(self, value: impl Into<i32>) -> Self {
+    fn border_radius(self, value: impl Into<i32>) -> Self::Output {
         self.style(Border::Radius(value.into()))
     }
 }

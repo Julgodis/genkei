@@ -53,15 +53,13 @@ impl<T> CursorTrait for T where T: Styleable {}
 
 /// A trait for the cursor style attributes.
 pub trait CursorTrait: Styleable {
-    /// Sets the cursor style attribute.
     #[inline]
-    fn cursor(self, value: impl Into<Cursor>) -> Self {
+    fn cursor(self, value: impl Into<Cursor>) -> Self::Output {
         self.style(value.into())
     }
 
-    /// Sets the cursor to pointer.
     #[inline]
-    fn cursor_pointer(self) -> Self {
+    fn cursor_pointer(self) -> Self::Output {
         self.cursor(Cursor::Pointer)
     }
 }

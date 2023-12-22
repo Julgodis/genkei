@@ -38,8 +38,8 @@ impl MediaQuery {
             MediaQuery::Md => write!(stream, "md")?,
             MediaQuery::Lg => write!(stream, "lg")?,
             MediaQuery::Xl => write!(stream, "xl")?,
-            MediaQuery::Xxl => write!(stream, "2xl")?,
-            MediaQuery::Xxxl => write!(stream, "3xl")?,
+            MediaQuery::Xxl => write!(stream, "xxl")?,
+            MediaQuery::Xxxl => write!(stream, "xxxl")?,
         };
 
         Ok(())

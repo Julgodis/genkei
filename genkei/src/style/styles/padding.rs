@@ -1,4 +1,4 @@
-use crate::{Style, StyleOptions, Styleable, StyleError};
+use crate::{Style, StyleError, StyleOptions, Styleable};
 use std::fmt::Write;
 
 /// Represents the padding style.
@@ -28,17 +28,16 @@ impl From<Padding> for Style {
 
 impl Padding {
     pub(crate) fn write_classname(&self, stream: &mut String) -> Result<(), StyleError> {
-        let (name, spacing) = match self {
-            Padding::All(x) => ("p", x),
-            Padding::Top(x) => ("pt", x),
-            Padding::Right(x) => ("pr", x),
-            Padding::Bottom(x) => ("pb", x),
-            Padding::Left(x) => ("pl", x),
-            Padding::X(x) => ("px", x),
-            Padding::Y(x) => ("py", x),
+        match self {
+            Padding::All(x) => write!(stream, "p-{}", x)?,
+            Padding::Top(x) => write!(stream, "pt-{}", x)?,
+            Padding::Right(x) => write!(stream, "pr-{}", x)?,
+            Padding::Bottom(x) => write!(stream, "pb-{}", x)?,
+            Padding::Left(x) => write!(stream, "pl-{}", x)?,
+            Padding::X(x) => write!(stream, "px-{}", x)?,
+            Padding::Y(x) => write!(stream, "py-{}", x)?,
         };
 
-        write!(stream, "{}-{}", name, spacing)?;
         Ok(())
     }
 
@@ -50,18 +49,41 @@ impl Padding {
     where
         T: StyleOptions,
     {
-        let (name, spacing) = match self {
-            Padding::All(x) => ("padding", x),
-            Padding::Top(x) => ("padding-top", x),
-            Padding::Right(x) => ("padding-right", x),
-            Padding::Bottom(x) => ("padding-bottom", x),
-            Padding::Left(x) => ("padding-left", x),
-            Padding::X(x) => ("padding-left", x),
-            Padding::Y(x) => ("padding-top", x),
+        match self {
+            Padding::All(x) => {
+                write!(stream, "padding:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::Top(x) => {
+                write!(stream, "padding-top:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::Right(x) => {
+                write!(stream, "padding-right:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::Bottom(x) => {
+                write!(stream, "padding-bottom:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::Left(x) => {
+                write!(stream, "padding-left:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::X(x) => {
+                write!(stream, "padding-left:")?;
+                options.spacing(stream, *x)?;
+                write!(stream, ";padding-right:")?;
+                options.spacing(stream, *x)?;
+            }
+            Padding::Y(x) => {
+                write!(stream, "padding-top:")?;
+                options.spacing(stream, *x)?;
+                write!(stream, ";padding-bottom:")?;
+                options.spacing(stream, *x)?;
+            }
         };
 
-        write!(stream, "{}:", name)?;
-        options.spacing(stream, *spacing)?;
         Ok(())
     }
 }
@@ -70,45 +92,38 @@ impl<T> PaddingTrait for T where T: Styleable {}
 
 /// Padding style attributes.
 pub trait PaddingTrait: Styleable {
-    /// Sets the padding style attribute for all sides.
     #[inline]
-    fn p(self, value: impl Into<i32>) -> Self {
+    fn p(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::All(value.into()))
     }
 
-    /// Sets the padding style attribute for the left and right sides.
     #[inline]
-    fn px(self, value: impl Into<i32>) -> Self {
+    fn px(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::X(value.into()))
     }
 
-    /// Sets the padding style attribute for the top and bottom sides.
     #[inline]
-    fn py(self, value: impl Into<i32>) -> Self {
+    fn py(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::Y(value.into()))
     }
 
-    /// Sets the padding style attribute for the top side.
     #[inline]
-    fn pt(self, value: impl Into<i32>) -> Self {
+    fn pt(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::Top(value.into()))
     }
 
-    /// Sets the padding style attribute for the right side.
     #[inline]
-    fn pr(self, value: impl Into<i32>) -> Self {
+    fn pr(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::Right(value.into()))
     }
 
-    /// Sets the padding style attribute for the bottom side.
     #[inline]
-    fn pb(self, value: impl Into<i32>) -> Self {
+    fn pb(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::Bottom(value.into()))
     }
 
-    /// Sets the padding style attribute for the left side.
     #[inline]
-    fn pl(self, value: impl Into<i32>) -> Self {
+    fn pl(self, value: impl Into<i32>) -> Self::Output {
         self.style(Padding::Left(value.into()))
     }
 }

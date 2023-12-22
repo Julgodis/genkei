@@ -44,29 +44,18 @@ impl GridRow {
     pub(crate) fn write_css_statement<T>(
         &self,
         stream: &mut String,
-        options: &T,
+        _options: &T,
     ) -> Result<(), StyleError>
     where
         T: crate::StyleOptions,
     {
         match self {
             GridRow::Auto => write!(stream, "grid-row:auto")?,
-            GridRow::Span(x) => {
-                write!(stream, "grid-row:span ")?;
-                options.spacing(stream, *x)?;
-                write!(stream, " / span ")?;
-                options.spacing(stream, *x)?;
-            }
+            GridRow::Span(x) => write!(stream, "grid-row:span {} / span {}", x, x)?,
             GridRow::SpanFull => write!(stream, "grid-row:1 / -1")?,
-            GridRow::Start(x) => {
-                write!(stream, "grid-row-start:")?;
-                options.spacing(stream, *x)?;
-            }
+            GridRow::Start(x) => write!(stream, "grid-row-start:{}", x)?,
             GridRow::StartAuto => write!(stream, "grid-row-start:auto")?,
-            GridRow::End(x) => {
-                write!(stream, "grid-row-end:")?;
-                options.spacing(stream, *x)?;
-            }
+            GridRow::End(x) => write!(stream, "grid-row-end:{}", x)?,
             GridRow::EndAuto => write!(stream, "grid-row-end:auto")?,
         };
 

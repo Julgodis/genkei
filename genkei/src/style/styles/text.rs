@@ -51,27 +51,23 @@ impl<T> TextTrait for T where T: Styleable {}
 
 /// Text style attributes.
 pub trait TextTrait: Styleable {
-    /// Set the text-align style attribute.
     #[inline]
-    fn text_align(self, value: impl Into<TextAlign>) -> Self {
+    fn text_align(self, value: impl Into<TextAlign>) -> Self::Output {
         self.style(Style::TextAlign(value.into()))
     }
 
-    /// Set the text-align style attribute to center.
     #[inline]
-    fn text_center(self) -> Self {
+    fn text_center(self) -> Self::Output {
         self.text_align(TextAlign::Center)
     }
 
-    /// Set the text-align style attribute to left.
     #[inline]
-    fn text_left(self) -> Self {
+    fn text_left(self) -> Self::Output {
         self.text_align(TextAlign::Left)
     }
 
-    /// Set the text-align style attribute to right.
     #[inline]
-    fn text_right(self) -> Self {
+    fn text_right(self) -> Self::Output {
         self.text_align(TextAlign::Right)
     }
 }

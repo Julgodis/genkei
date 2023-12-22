@@ -59,21 +59,18 @@ impl<T> ColorTrait for T where T: Styleable {}
 
 /// A trait for the color style attribute.
 pub trait ColorTrait: Styleable {
-    /// Set the background color. css `background-color: value;`
     #[inline]
-    fn bg_color(self, value: impl Into<Color>) -> Self {
+    fn bg_color(self, value: impl Into<Color>) -> Self::Output {
         self.style(ColorStyle::Background(value.into()))
     }
 
-    /// Set the text color. css `color: value;`
     #[inline]
-    fn fg_color(self, value: impl Into<Color>) -> Self {
+    fn fg_color(self, value: impl Into<Color>) -> Self::Output {
         self.style(ColorStyle::Foreground(value.into()))
     }
 
-    /// Set the text color. css `color: value;`
     #[inline]
-    fn color(self, value: impl Into<Color>) -> Self {
+    fn color(self, value: impl Into<Color>) -> Self::Output {
         self.fg_color(value)
     }
 }

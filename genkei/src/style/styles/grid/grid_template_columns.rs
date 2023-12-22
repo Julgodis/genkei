@@ -29,16 +29,14 @@ impl GridTemplateColumns {
     pub(crate) fn write_css_statement<T>(
         &self,
         stream: &mut String,
-        options: &T,
+        _options: &T,
     ) -> Result<(), StyleError>
     where
         T: crate::StyleOptions,
     {
         match self {
             GridTemplateColumns::Repeat(x) => {
-                write!(stream, "grid-template-columns:repeat(")?;
-                options.spacing(stream, *x)?;
-                write!(stream, ",minmax(0,1fr))")?;
+                write!(stream, "grid-template-columns:repeat({},minmax(0,1fr))", x)?
             }
             GridTemplateColumns::None => write!(stream, "grid-template-columns:none")?,
         };

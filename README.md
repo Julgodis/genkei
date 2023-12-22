@@ -32,13 +32,7 @@ genkei = { git = "https://github.com/Julgodis/genkei/" }
 
 
 
-##  Contributing
-Contributions to Genkei are welcome and encouraged! To contribute, please follow these guidelines:
-- Fork the project repository to your own GitHub account.
-- Create a new branch for your changes.
-- Make your changes and commit them to your branch.
-- Push your branch to your GitHub account.
-- Submit a pull request to the project repository.
+
 
 ##  License
 This project is licensed under the MIT License. See the LICENSE file for details.

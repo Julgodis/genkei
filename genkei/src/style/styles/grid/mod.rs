@@ -60,27 +60,23 @@ impl<T> GridTrait for T where T: Styleable {}
 
 /// Grid style attributes.
 pub trait GridTrait: Styleable {
-    /// Sets the grid columns style attribute.
     #[inline]
-    fn grid_cols(self, value: impl Into<i32>) -> Self {
+    fn grid_cols(self, value: impl Into<i32>) -> Self::Output {
         self.style(GridTemplateColumns::Repeat(value.into()))
     }
 
-    /// Sets the grid rows style attribute.
     #[inline]
-    fn grid_rows(self, value: impl Into<i32>) -> Self {
+    fn grid_rows(self, value: impl Into<i32>) -> Self::Output {
         self.style(GridTemplateRows::Repeat(value.into()))
     }
 
-    /// Sets the grid col-span style attribute.
     #[inline]
-    fn col_span(self, value: impl Into<i32>) -> Self {
+    fn col_span(self, value: impl Into<i32>) -> Self::Output {
         self.style(GridColumn::Span(value.into()))
     }
 
-    /// Sets the grid row-span style attribute.
     #[inline]
-    fn row_span(self, value: impl Into<i32>) -> Self {
+    fn row_span(self, value: impl Into<i32>) -> Self::Output {
         self.style(GridRow::Span(value.into()))
     }
 }

@@ -2,7 +2,7 @@ mod outline_style;
 
 pub use outline_style::*;
 
-use crate::{Color, Style, StyleError, Styleable};
+use crate::{Color, Style, StyleError, Styleable, StyleBuilder};
 use std::fmt::Write;
 
 /// Represents the outline style.
@@ -48,7 +48,7 @@ impl Outline {
             Outline::Style(value) => value.write_css_statement(stream, options)?,
             Outline::Width(value) => {
                 write!(stream, "outline-width:")?;
-                options.spacing(stream, *value)?;
+                options.border(stream, *value)?;
             }
             Outline::Color(value) => {
                 write!(stream, "outline-color:")?;
@@ -64,34 +64,35 @@ impl<T> OutlineTrait for T where T: Styleable {}
 
 /// A trait for the outline style attributes.
 pub trait OutlineTrait: Styleable {
-    /// Sets the outline style attribute.
     #[inline]
-    fn outline_style(self, value: impl Into<OutlineStyle>) -> Self {
+    fn outline_style(self, value: impl Into<OutlineStyle>) -> Self::Output {
         self.style(value.into())
     }
 
-    /// Sets the outline width attribute.
     #[inline]
-    fn outline_width(self, value: impl Into<i32>) -> Self {
+    fn outline_width(self, value: impl Into<i32>) -> Self::Output {
         self.style(Outline::Width(value.into()))
     }
 
-    /// Sets the outline color attribute.
     #[inline]
-    fn outline_color(self, value: impl Into<Color>) -> Self {
+    fn outline_color(self, value: impl Into<Color>) -> Self::Output {
         self.style(Outline::Color(value.into()))
     }
 
-    /// Sets the outline attribute.
     #[inline]
     fn outline(
         self,
         style: impl Into<OutlineStyle>,
         width: impl Into<i32>,
         color: impl Into<Color>,
-    ) -> Self {
-        self.outline_style(style)
-            .outline_width(width)
-            .outline_color(color)
+    ) -> Self::Output {
+        self.styles(
+            StyleBuilder::new()
+                .outline_style(style)
+                .outline_width(width)
+                .outline_color(color)
+                .build()
+                .into_iter(),
+        )
     }
 }

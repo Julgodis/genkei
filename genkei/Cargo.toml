@@ -10,15 +10,13 @@ license = "MIT"
 default = ["html", "style"]
 html = []
 style = []
-html-deprecated = ["html"]
-html-macros = ["html"]
-html-render = ["html"]
-html-htmx = ["html"]
+deprecated = ["html"]
+macros = ["html"]
+htmx = ["html"]
 all = [
     "html",
     "style",
-    "html-deprecated",
-    "html-macros",
-    "html-render",
-    "html-htmx",
+    "deprecated",
+    "macros",
+    "htmx",
 ]

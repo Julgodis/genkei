@@ -32,11 +32,7 @@ impl BackdropFilter {
         T: crate::StyleOptions,
     {
         match self {
-            BackdropFilter::Blur(x) => {
-                write!(stream, "backdrop-filter:blur(")?;
-                _options.spacing(stream, *x)?;
-                write!(stream, "px)")?;
-            }
+            BackdropFilter::Blur(x) => write!(stream, "backdrop-filter:blur({}px)", x)?,
         };
 
         Ok(())
@@ -47,15 +43,13 @@ impl<T> BackdropFilterTrait for T where T: Styleable {}
 
 /// A trait for the backdrop-filter style attributes.
 pub trait BackdropFilterTrait: Styleable {
-    /// Sets the backdrop-filter style attribute.
     #[inline]
-    fn backdrop(self, value: impl Into<BackdropFilter>) -> Self {
+    fn backdrop_filter(self, value: impl Into<BackdropFilter>) -> Self::Output {
         self.style(value.into())
     }
 
-    /// Sets the backdrop-filter style attribute to blur.
     #[inline]
-    fn backdrop_blur(self, value: impl Into<i32>) -> Self {
+    fn backdrop_filter_blur(self, value: impl Into<i32>) -> Self::Output {
         self.style(BackdropFilter::Blur(value.into()))
     }
 }

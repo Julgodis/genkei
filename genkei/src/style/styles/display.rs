@@ -16,6 +16,8 @@ pub enum Display {
     InlineBlock,
     /// display: grid
     Grid,
+    /// display: inline-flex
+    InlineFlex,
 }
 
 impl From<Display> for Style {
@@ -27,12 +29,13 @@ impl From<Display> for Style {
 impl Display {
     pub(crate) fn write_classname(&self, stream: &mut String) -> Result<(), StyleError> {
         match self {
-            Display::None => write!(stream, "d-none")?,
-            Display::Block => write!(stream, "d-block")?,
-            Display::Flex => write!(stream, "d-flex")?,
-            Display::Inline => write!(stream, "d-inline")?,
-            Display::InlineBlock => write!(stream, "d-inline-block")?,
-            Display::Grid => write!(stream, "d-grid")?,
+            Display::None => write!(stream, "none")?,
+            Display::Block => write!(stream, "block")?,
+            Display::Flex => write!(stream, "flex")?,
+            Display::Inline => write!(stream, "inline")?,
+            Display::InlineBlock => write!(stream, "inline-block")?,
+            Display::Grid => write!(stream, "grid")?,
+            Display::InlineFlex => write!(stream, "inline-flex")?,
         };
 
         Ok(())
@@ -53,6 +56,7 @@ impl Display {
             Display::Inline => write!(stream, "display:inline")?,
             Display::InlineBlock => write!(stream, "display:inline-block")?,
             Display::Grid => write!(stream, "display:grid")?,
+            Display::InlineFlex => write!(stream, "display:inline-flex")?,
         };
 
         Ok(())
@@ -63,45 +67,38 @@ impl<T> DisplayTrait for T where T: Styleable {}
 
 /// A trait for the display style attributes.
 pub trait DisplayTrait: Styleable {
-    /// Sets the display style attribute.
     #[inline]
-    fn display(self, value: impl Into<Display>) -> Self {
+    fn display(self, value: impl Into<Display>) -> Self::Output {
         self.style(Style::Display(value.into()))
     }
 
-    /// Sets the display style attribute to none.
     #[inline]
-    fn none(self) -> Self {
+    fn none(self) -> Self::Output {
         self.style(Display::None)
     }
 
-    /// Sets the display style attribute to block.
     #[inline]
-    fn block(self) -> Self {
+    fn block(self) -> Self::Output {
         self.style(Display::Block)
     }
 
-    /// Sets the display style attribute to flex.
     #[inline]
-    fn flex(self) -> Self {
+    fn flex(self) -> Self::Output {
         self.style(Display::Flex)
     }
 
-    /// Sets the display style attribute to inline.
     #[inline]
-    fn inline(self) -> Self {
+    fn inline(self) -> Self::Output {
         self.style(Display::Inline)
     }
 
-    /// Sets the display style attribute to inline-block.
     #[inline]
-    fn inline_block(self) -> Self {
+    fn inline_block(self) -> Self::Output {
         self.style(Display::InlineBlock)
     }
 
-    /// Sets the display style attribute to grid.
     #[inline]
-    fn grid(self) -> Self {
+    fn grid(self) -> Self::Output {
         self.style(Display::Grid)
     }
 }

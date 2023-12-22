@@ -4,19 +4,21 @@ mod tag;
 mod renderer;
 mod attributes;
 
-#[cfg(feature = "html-macros")]
+#[cfg(feature = "macros")]
 pub mod macros;
-#[cfg(feature = "html-deprecated")]
+#[cfg(feature = "deprecated")]
 pub mod deprecated;
-#[cfg(feature = "html-htmx")]
+#[cfg(feature = "htmx")]
 pub mod htmx;
 
 pub use tag::Tag;
 pub use renderer::Renderer;
+pub use renderer::RenderResult;
+pub use renderer::RenderError;
 pub use attributes::HtmlAttribute;
-#[cfg(feature = "html-macros")]
+#[cfg(feature = "macros")]
 pub use macros::*;
-#[cfg(feature = "html-deprecated")]
+#[cfg(feature = "deprecated")]
 pub use deprecated::*;
 
 // Root element
@@ -153,6 +155,7 @@ tag_def!(option);
 tag_def!(output);
 tag_def!(progress);
 tag_def!(textarea);
+tag_def!(select);
 
 // Interactive elements
 tag_def!(details);
@@ -163,5 +166,5 @@ tag_def!(summary);
 tag_def!(slot);
 tag_def!(template);
 
-#[cfg(feature = "html-deprecated")]
+#[cfg(feature = "deprecated")]
 pub use deprecated::*;

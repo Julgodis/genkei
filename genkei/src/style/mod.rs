@@ -17,7 +17,9 @@ pub enum Style {
     Padding(Padding),
     Margin(Margin),
     Width(Width),
+    MinWidth(MinWidth),
     Height(Height),
+    MinHeight(MinHeight),
     Color(ColorStyle),
     Font(Font),
     TextAlign(TextAlign),
@@ -30,6 +32,7 @@ pub enum Style {
     Grid(Grid),
     Cursor(Cursor),
     BackdropFilter(BackdropFilter),
+    Gap(Gap),
     CustomStyle(CustomStyleWrapper),
 
     State(State),
@@ -54,6 +57,7 @@ pub struct State {
     pub focus_visible: bool,
     pub hover: bool,
     pub active: bool,
+    pub backdrop: bool,
     pub inner: Box<Style>,
 }
 
@@ -66,6 +70,7 @@ impl State {
             focus_visible: false,
             hover: false,
             active: false,
+            backdrop: false,
             inner: Box::new(style.into()),
         }
     }
@@ -78,6 +83,7 @@ impl State {
             focus_visible: false,
             hover: false,
             active: false,
+            backdrop: false,
             inner: Box::new(style.into()),
         }
     }
@@ -90,6 +96,7 @@ impl State {
             focus_visible: false,
             hover: false,
             active: false,
+            backdrop: false,
             inner: Box::new(style.into()),
         }
     }
@@ -102,6 +109,7 @@ impl State {
             focus_visible: true,
             hover: false,
             active: false,
+            backdrop: false,
             inner: Box::new(style.into()),
         }
     }
@@ -114,6 +122,7 @@ impl State {
             focus_visible: false,
             hover: true,
             active: false,
+            backdrop: false,
             inner: Box::new(style.into()),
         }
     }
@@ -126,6 +135,20 @@ impl State {
             focus_visible: false,
             hover: false,
             active: true,
+            backdrop: false,
+            inner: Box::new(style.into()),
+        }
+    }
+
+    pub fn backdrop(style: impl Into<Style>) -> Self {
+        Self {
+            link: false,
+            visited: false,
+            focus: false,
+            focus_visible: false,
+            hover: false,
+            active: false,
+            backdrop: true,
             inner: Box::new(style.into()),
         }
     }
@@ -141,6 +164,7 @@ impl State {
                 focus_visible: self.focus_visible || x.focus_visible,
                 hover: self.hover || x.hover,
                 active: self.active || x.active,
+                backdrop: self.backdrop || x.backdrop,
                 inner: x.inner,
             },
             _ => Self {
@@ -150,6 +174,7 @@ impl State {
                 focus_visible: self.focus_visible,
                 hover: self.hover,
                 active: self.active,
+                backdrop: self.backdrop,
                 inner: Box::new(inner),
             },
         }
@@ -174,6 +199,9 @@ impl State {
         if self.active {
             write!(stream, "active\\:")?;
         }
+        if self.backdrop {
+            write!(stream, "backdrop\\:")?;
+        }
 
         Ok(())
     }
@@ -197,6 +225,9 @@ impl State {
         if self.active {
             write!(stream, ":active")?;
         }
+        if self.backdrop {
+            write!(stream, "::backdrop")?;
+        }
 
         Ok(())
     }
@@ -219,6 +250,9 @@ impl State {
         }
         if self.active {
             write!(stream, "active:")?;
+        }
+        if self.backdrop {
+            write!(stream, "backdrop:")?;
         }
 
         Ok(())
@@ -269,6 +303,12 @@ impl PartialOrd for State {
             x => return x,
         }
 
+        // Compare 'backdrop'
+        match self.backdrop.partial_cmp(&other.backdrop) {
+            Some(std::cmp::Ordering::Equal) => {}
+            x => return x,
+        }
+
         // Compare 'inner'
         self.inner.partial_cmp(&other.inner)
     }
@@ -312,6 +352,12 @@ impl Ord for State {
             x => return x,
         }
 
+        // Compare 'backdrop'
+        match self.backdrop.cmp(&other.backdrop) {
+            std::cmp::Ordering::Equal => {}
+            x => return x,
+        }
+
         // Compare 'inner'
         self.inner.cmp(&other.inner)
     }
@@ -326,7 +372,7 @@ pub trait CustomStyle: std::fmt::Debug {
     fn to_css_statement(&self, stream: &mut String);
 
     /// Clone implementation for this style.
-    fn clone_style(&self) -> Box<dyn CustomStyle>;
+    fn clone_style(&self) -> Box<dyn CustomStyle + Send + Sync>;
 
     /// PartialEq implementation for this style.
     fn partial_eq_style(&self, other: &dyn CustomStyle) -> bool;
@@ -342,7 +388,7 @@ pub trait CustomStyle: std::fmt::Debug {
 }
 
 #[derive(Debug)]
-pub struct CustomStyleWrapper(pub Box<dyn CustomStyle>);
+pub struct CustomStyleWrapper(pub Box<dyn CustomStyle + Send + Sync>);
 
 impl Clone for CustomStyleWrapper {
     fn clone(&self) -> Self {
