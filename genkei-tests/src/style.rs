@@ -1,6 +1,6 @@
 use genkei::{
     Color, ColorTrait, DefaultStyleOptions, HtmlAttribute, MarginTrait, PaddingTrait, Renderer,
-    Style, StyleBuilder, StyleRenderer, Styleable,
+    Style, StyleBuilder, StyleRenderer, Styleable, TextContent,
 };
 
 #[test]
@@ -29,25 +29,23 @@ fn test_style_to_css() {
 #[test]
 fn test_style_render_basic() {
     let mut renderer = StyleRenderer::<DefaultStyleOptions>::new(false);
-    renderer
-        .include_style(genkei::Padding::All(1));
+    renderer.include_style(genkei::Padding::All(1));
     assert_eq!(renderer.render().unwrap().0, ".p-1{padding:0.25rem}");
 }
 
 #[test]
 fn test_style_render_state() {
     let mut renderer = StyleRenderer::<DefaultStyleOptions>::new(false);
-    renderer
-        .include_styles(
-            StyleBuilder::new()
-                .p(1)
-                .hover(|style| {
-                    style
-                        .p(2)
-                        .focus(|style| style.p(3).focus_visible(|style| style.p(4)))
-                })
-                .build(),
-        );
+    renderer.include_styles(
+        StyleBuilder::new()
+            .p(1)
+            .hover(|style| {
+                style
+                    .p(2)
+                    .focus(|style| style.p(3).focus_visible(|style| style.p(4)))
+            })
+            .build(),
+    );
     assert_eq!(
         renderer.render().unwrap().0,
         ".p-1{padding:0.25rem}.hover\\:p-2:hover{padding:0.5rem}.focus\\:hover\\:p-3:focus:hover{padding:0.75rem}.focus\\:focus-visible\\:hover\\:p-4:focus:focus-visible:hover{padding:1rem}"
@@ -57,13 +55,12 @@ fn test_style_render_state() {
 #[test]
 fn test_style_media_query() {
     let mut renderer = StyleRenderer::<DefaultStyleOptions>::new(false);
-    renderer
-        .include_styles(
-            StyleBuilder::new()
-                .p(1)
-                .mq(genkei::MediaQuery::Lg, |style| style.p(2))
-                .build(),
-        );
+    renderer.include_styles(
+        StyleBuilder::new()
+            .p(1)
+            .mq(genkei::MediaQuery::Lg, |style| style.p(2))
+            .build(),
+    );
     assert_eq!(
         renderer.render().unwrap().0,
         ".p-1{padding:0.25rem}@media(min-width:1024px){.lg\\:p-2{padding:0.5rem}}"
@@ -122,4 +119,19 @@ fn test_renderer_css() {
         .unwrap()
         .css()
         .ends_with(".p-1{padding:0.25rem}.bg-slate-50{background-color:rgb(248,250,252)}"));
+}
+
+#[test]
+fn test_usage_example() {
+    let tag = genkei::div()
+        .id("id")
+        .bg_color(Color::Slate500)
+        .p(2)
+        .text_content("Hello, world!");
+
+    let html = tag.to_html().unwrap();
+    assert_eq!(
+        html,
+        "<div class=\"p-2 bg-slate-500\" id=id>Hello, world!</div>"
+    );
 }

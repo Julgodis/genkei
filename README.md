@@ -30,9 +30,15 @@ genkei = { git = "https://github.com/Julgodis/genkei/" }
 
 ## Usage
 
+```rust
+let tag = genkei::div()
+  .id("id")
+  .bg_color(Color::Slate500)
+  .p(2)
+  .text_content("Hello, world!");
 
-
-
+let html = tag.to_html()?;
+```
 
 ##  License
 This project is licensed under the MIT License. See the LICENSE file for details.
