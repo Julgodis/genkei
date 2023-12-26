@@ -8,7 +8,7 @@ pub use grid_row::*;
 pub use grid_template_columns::*;
 pub use grid_template_rows::*;
 
-use crate::{Style, Styleable, StyleError};
+use crate::{Style, StyleError, Styleable};
 
 /// Represents the `grid` properties.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]

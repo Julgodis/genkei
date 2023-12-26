@@ -1,6 +1,8 @@
-
 /// A trait for elements that can have children.
-pub trait Children where Self: Sized {
+pub trait Children
+where
+    Self: Sized,
+{
     type Output;
     type Child;
 

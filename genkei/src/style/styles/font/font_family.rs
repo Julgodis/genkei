@@ -1,5 +1,4 @@
-
-use crate::{Style, StyleError, Font};
+use crate::{Font, Style, StyleError};
 use std::fmt::Write;
 
 /// Font style attributes.

@@ -267,50 +267,7 @@ impl From<State> for Style {
 
 impl PartialOrd for State {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        // Compare 'link'
-        match self.link.partial_cmp(&other.link) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'visited'
-        match self.visited.partial_cmp(&other.visited) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'focus'
-        match self.focus.partial_cmp(&other.focus) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'focus_visible'
-        match self.focus_visible.partial_cmp(&other.focus_visible) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'hover'
-        match self.hover.partial_cmp(&other.hover) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'active'
-        match self.active.partial_cmp(&other.active) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'backdrop'
-        match self.backdrop.partial_cmp(&other.backdrop) {
-            Some(std::cmp::Ordering::Equal) => {}
-            x => return x,
-        }
-
-        // Compare 'inner'
-        self.inner.partial_cmp(&other.inner)
+        Some(self.cmp(other))
     }
 }
 
@@ -406,7 +363,7 @@ impl Eq for CustomStyleWrapper {}
 
 impl PartialOrd for CustomStyleWrapper {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        self.0.partial_cmp_style(&*other.0)
+        Some(self.cmp(other))
     }
 }
 

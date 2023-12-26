@@ -1,6 +1,7 @@
 use std::{
     collections::hash_map::DefaultHasher,
-    hash::{Hash, Hasher}, str::FromStr,
+    hash::{Hash, Hasher},
+    str::FromStr,
 };
 
 use crate::{Str, StyleError, StyleOptions};
@@ -25,7 +26,7 @@ impl Ord for FloatQuantized {
 
 impl PartialOrd for FloatQuantized {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        self.as_i32().partial_cmp(&other.as_i32())
+        Some(self.cmp(other))
     }
 }
 

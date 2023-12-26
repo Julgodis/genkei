@@ -21,4 +21,3 @@ macro_rules! div_group {
         element_group!($crate::html::div(), $($content)*)
     };
 }
-

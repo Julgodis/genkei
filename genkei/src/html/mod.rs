@@ -1,25 +1,25 @@
 use crate::{tag_def, tag_def_custom};
-mod define;
-mod tag;
-mod renderer;
 mod attributes;
+mod define;
+mod renderer;
+mod tag;
 
-#[cfg(feature = "macros")]
-pub mod macros;
 #[cfg(feature = "deprecated")]
 pub mod deprecated;
 #[cfg(feature = "htmx")]
 pub mod htmx;
-
-pub use tag::Tag;
-pub use renderer::Renderer;
-pub use renderer::RenderResult;
-pub use renderer::RenderError;
-pub use attributes::HtmlAttribute;
 #[cfg(feature = "macros")]
-pub use macros::*;
+pub mod macros;
+
+pub use attributes::HtmlAttribute;
 #[cfg(feature = "deprecated")]
 pub use deprecated::*;
+#[cfg(feature = "macros")]
+pub use macros::*;
+pub use renderer::RenderError;
+pub use renderer::RenderResult;
+pub use renderer::Renderer;
+pub use tag::Tag;
 
 // Root element
 tag_def!(html);

@@ -18,7 +18,7 @@ impl StyleBuilder {
 
 impl Styleable for StyleBuilder {
     type Output = Self;
-    
+
     fn style_raw(mut self, style: Style) -> Self {
         self.styles.insert(style);
         self

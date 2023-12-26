@@ -54,7 +54,7 @@ impl Tag {
 
 impl Attributes for Tag {
     type Output = Self;
-    
+
     fn attr(mut self, attribute: impl IntoAttribute) -> Self {
         let attribute = attribute.into_attribute();
         match attribute {

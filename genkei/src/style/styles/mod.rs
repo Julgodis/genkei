@@ -1,6 +1,7 @@
 mod align;
 mod backdrop_filter;
 mod border;
+mod color;
 mod cursor;
 mod display;
 mod flex;
@@ -15,11 +16,11 @@ mod outline;
 mod padding;
 mod text;
 mod width;
-mod color;
 
 pub use align::*;
 pub use backdrop_filter::*;
 pub use border::*;
+pub use color::*;
 pub use cursor::*;
 pub use display::*;
 pub use flex::*;
@@ -34,4 +35,3 @@ pub use outline::*;
 pub use padding::*;
 pub use text::*;
 pub use width::*;
-pub use color::*;

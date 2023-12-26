@@ -2,7 +2,7 @@ mod outline_style;
 
 pub use outline_style::*;
 
-use crate::{Color, Style, StyleError, Styleable, StyleBuilder};
+use crate::{Color, Style, StyleBuilder, StyleError, Styleable};
 use std::fmt::Write;
 
 /// Represents the outline style.
@@ -91,8 +91,7 @@ pub trait OutlineTrait: Styleable {
                 .outline_style(style)
                 .outline_width(width)
                 .outline_color(color)
-                .build()
-                .into_iter(),
+                .build(),
         )
     }
 }
