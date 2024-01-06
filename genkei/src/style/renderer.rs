@@ -74,6 +74,8 @@ pub enum StyleError {
     CssClassnameUnsupported(Style),
     /// The style cannot be rendered as an inline style.
     InlineStylingNotSupported(Style),
+    /// Invalid simple color name.
+    InvalidSimpleColor(String),
 }
 
 impl std::fmt::Display for StyleError {
@@ -92,6 +94,7 @@ impl std::fmt::Display for StyleError {
             StyleError::InlineStylingNotSupported(style) => {
                 write!(f, "inline styling not supported: {:?}", style)
             }
+            StyleError::InvalidSimpleColor(name) => write!(f, "invalid simple color: {}", name),
         }
     }
 }
@@ -139,7 +142,8 @@ impl<Opt: StyleOptions> StyleRenderer<Opt> {
             Style::MinWidth(x) => x.write_css_statement(stream, options)?,
             Style::Height(x) => x.write_css_statement(stream, options)?,
             Style::MinHeight(x) => x.write_css_statement(stream, options)?,
-            Style::Color(x) => x.write_css_statement(stream, options)?,
+            Style::SimpleColor(x) => x.write_css_statement(stream, options)?,
+            Style::ComplexColor(x) => x.write_css_statement(stream, options)?,
             Style::Font(x) => x.write_css_statement(stream, options)?,
             Style::TextAlign(x) => x.write_css_statement(stream, options)?,
             Style::Display(x) => x.write_css_statement(stream, options)?,
@@ -170,7 +174,8 @@ impl<Opt: StyleOptions> StyleRenderer<Opt> {
             Style::MinWidth(x) => x.write_classname(stream)?,
             Style::Height(x) => x.write_classname(stream)?,
             Style::MinHeight(x) => x.write_classname(stream)?,
-            Style::Color(x) => x.write_classname(stream)?,
+            Style::SimpleColor(x) => x.write_classname(stream)?,
+            Style::ComplexColor(x) => x.write_classname(stream)?,
             Style::Font(x) => x.write_classname(stream)?,
             Style::TextAlign(x) => x.write_classname(stream)?,
             Style::Display(x) => x.write_classname(stream)?,
@@ -220,7 +225,8 @@ impl<Opt: StyleOptions> StyleRenderer<Opt> {
             Style::MinWidth(x) => x.write_classname(stream)?,
             Style::Height(x) => x.write_classname(stream)?,
             Style::MinHeight(x) => x.write_classname(stream)?,
-            Style::Color(x) => x.write_classname(stream)?,
+            Style::SimpleColor(x) => x.write_classname(stream)?,
+            Style::ComplexColor(x) => x.write_classname(stream)?,
             Style::Font(x) => x.write_classname(stream)?,
             Style::TextAlign(x) => x.write_classname(stream)?,
             Style::Display(x) => x.write_classname(stream)?,

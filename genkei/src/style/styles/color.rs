@@ -1,22 +1,31 @@
-use crate::{Color, Style, StyleError, Styleable};
+use crate::{Color, ColorValue, ComplexColor, Style, StyleError, Styleable};
 use std::fmt::Write;
 
 /// Represents the `color` and `background-color` style attributes.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub enum ColorStyle {
+pub enum ColorStyle<T> {
     /// color: value;
-    Foreground(Color),
+    Foreground(T),
     /// background-color: value;
-    Background(Color),
+    Background(T),
 }
 
-impl From<ColorStyle> for Style {
-    fn from(value: ColorStyle) -> Self {
-        Style::Color(value)
+impl From<ColorStyle<Color>> for Style {
+    fn from(value: ColorStyle<Color>) -> Self {
+        Style::SimpleColor(value)
     }
 }
 
-impl ColorStyle {
+impl From<ColorStyle<ComplexColor>> for Style {
+    fn from(value: ColorStyle<ComplexColor>) -> Self {
+        Style::ComplexColor(value)
+    }
+}
+
+impl<V> ColorStyle<V>
+where
+    V: ColorValue,
+{
     pub(crate) fn write_classname(&self, stream: &mut String) -> Result<(), StyleError> {
         match self {
             ColorStyle::Foreground(x) => {
@@ -43,11 +52,11 @@ impl ColorStyle {
         match self {
             ColorStyle::Foreground(x) => {
                 write!(stream, "color:")?;
-                x.write_css_value(stream, options)?;
+                x.write_color_value(stream, options)?;
             }
             ColorStyle::Background(x) => {
                 write!(stream, "background-color:")?;
-                x.write_css_value(stream, options)?;
+                x.write_color_value(stream, options)?;
             }
         };
 
