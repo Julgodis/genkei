@@ -8,7 +8,7 @@ pub use builder::*;
 pub use renderer::*;
 pub use styles::*;
 
-use crate::Str;
+use crate::{Color, ComplexColor, Str};
 use std::fmt::Write;
 
 /// Represents a style.
@@ -20,7 +20,8 @@ pub enum Style {
     MinWidth(MinWidth),
     Height(Height),
     MinHeight(MinHeight),
-    Color(ColorStyle),
+    SimpleColor(ColorStyle<Color>),
+    ComplexColor(ColorStyle<ComplexColor>),
     Font(Font),
     TextAlign(TextAlign),
     Display(Display),
